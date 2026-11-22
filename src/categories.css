@@ -150,3 +150,8 @@
 .cg-chip .lb{font-size:clamp(11px,1.65svh,12.5px);font-weight:600;color:#33433a;line-height:1.15;max-width:100%;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .cg-chip.on .lb{color:#0b7a1c;font-weight:800}
 .cg-chip.on .lb::after{content:"";display:block;width:16px;height:3px;margin:3px auto 0;border-radius:3px;background:#0b7a1c}
+
+/* Photo des cartes : elle couvre tout le cadre (plus de bande beige) */
+.cg-card .ph{display:block;position:relative;background:#e9e4d8}
+.cg-card .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.cg-card .ph>b{position:absolute;inset:0;display:grid;place-items:center}
