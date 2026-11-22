@@ -24,7 +24,7 @@ export const demoProducts = [
   prod("c1", "Matcha latte", 2000, "Thé matcha intense, lait mousseux.", drink(), 38345070),
   prod("c2", "Mangue passion", 1700, "Jus de mangue et fruit de la passion, glace pilée.", drink().slice(0, 2), 5817624),
   prod("c2", "Fraise litchi", 1700, "Fraise fraîche, litchi, un soupçon de menthe.", drink().slice(0, 2), 30591640),
-  prod("c3", "Burger poulet croustillant", 3000, "Poulet pané, salade, sauce maison.", [], 2874990),
+  prod("c3", "Burger poulet croustillant", 1500, "Un délicieux burger au poulet croustillant, garni de salade fraîche et de sauce maison.", [group("Taille", true, false, [["Petit", 0], ["Moyen", 500], ["Grand", 1500]], 0), group("Suppléments", false, true, [["Fromage", 300], ["Bacon", 400], ["Sauce piquante", 200]], 1)], 2874990),
   prod("c3", "Frites maison", 1000, "Pommes de terre fraîches, sel de mer.", [], 8272619),
   prod("c3", "Nuggets de poulet (6)", 1800, "Six nuggets dorés et leur sauce.", [], 18188572),
   prod("c4", "Gaufre sucrée", 1500, "Gaufre chaude, sucre glace et chocolat.", [], 35054718),

@@ -20,21 +20,6 @@ const Arrow = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M4 12h15M13 5l7 7-7 7" /></svg>
 );
 
-const LEAF = "M0 0C36-36 112-44 158-4 112 36 36 40 0 0Z";
-function Decor() {
-  return (
-    <svg className="pd-deco" viewBox="0 0 200 520" aria-hidden="true">
-      <defs><linearGradient id="pdg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#5eb02c" /><stop offset="1" stopColor="#1f6d17" /></linearGradient></defs>
-      <path d="M200 40C150 40 118 100 128 190c6 70-40 130-38 210 2 60 60 90 110 90V40z" fill="#e3edcc" opacity=".9" />
-      <g fill="url(#pdg)">
-        <path d={LEAF} transform="translate(176 92) rotate(-62) scale(.9)" />
-        <path d={LEAF} transform="translate(198 196) rotate(186) scale(1.12)" />
-        <path d={LEAF} transform="translate(150 262) rotate(60) scale(.85)" />
-      </g>
-    </svg>
-  );
-}
-
 export default function ProductPage() {
   const { id } = useParams();
   const { products, loading } = useMenu();
@@ -97,33 +82,50 @@ function Detail({ p }) {
 
       <div className="pd-sheet">
         <svg className="pd-wave" viewBox="0 0 941 121" preserveAspectRatio="none" aria-hidden="true">
-          <path d="M0 60C60 52 110 44 160 52 330 80 520 118 690 112 780 108 820 60 860 24 890 4 915 0 941 0V121H0Z" fill="#f6f1e3" />
+          <path d="M0 60C60 52 110 44 160 52 330 80 520 118 690 112 780 108 820 60 860 24 890 4 915 0 941 0V121H0Z" fill="#fff" />
         </svg>
-        <Decor />
 
         <div className="pd-body">
           <h1>{p.name}</h1>
-          <div className="pd-price">{promoOn(p) && <s>{num(p.price)}</s>}<em>{num(effPrice(p))}</em> FCFA{promoOn(p) && <b className="pd-off">-{promoPct(p)}%</b>}</div>
+          <div className="pd-price">{promoOn(p) && <s>{num(p.price)}</s>}<em>{num(unit)}</em> <small>FCFA</small>{promoOn(p) && <b className="pd-off">-{promoPct(p)}%</b>}</div>
           {p.description && <p className="pd-desc">{p.description}</p>}
 
           {p.option_groups.map((g) => {
             const items = g.option_items.filter((i) => i.available);
             if (!items.length) return null;
+            const anyDelta = items.some((i) => i.price_delta);
             return (
               <div className="pd-group" key={g.id}>
-                <h3>{g.name} <span>({g.required ? "obligatoire" : "optionnel"})</span></h3>
-                <div className="pd-chips">
-                  {items.map((i) => {
-                    const on = chosen(g).includes(i.id);
-                    return (
-                      <label key={i.id} className={"pd-chip" + (on ? " on" : "")}>
-                        <input type={g.multiple ? "checkbox" : "radio"} name={"g" + g.id} checked={on} onChange={() => toggle(g, i)} />
-                        <span>{i.name}</span>
-                        {i.price_delta ? <em>{(i.price_delta > 0 ? "+" : "−") + num(Math.abs(i.price_delta))} FCFA</em> : null}
-                      </label>
-                    );
-                  })}
-                </div>
+                <h3>{g.name}{!g.required && <span> (optionnel)</span>}</h3>
+                {g.multiple ? (
+                  <div className="pd-rows">
+                    {items.map((i) => {
+                      const on = chosen(g).includes(i.id);
+                      return (
+                        <label key={i.id} className={"pd-row-opt" + (on ? " on" : "")}>
+                          <input type="checkbox" name={"g" + g.id} checked={on} onChange={() => toggle(g, i)} />
+                          <span className="n">{i.name}</span>
+                          {i.price_delta ? <em>{(i.price_delta > 0 ? "+" : "−") + num(Math.abs(i.price_delta))} <small>FCFA</small></em> : null}
+                          <i className="box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.4" strokeLinecap="round" strokeLinejoin="round"><path d="m5 12.500 4.500 4.500L19 7.500" /></svg></i>
+                        </label>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <div className={"pd-cards c" + Math.min(items.length, 3)}>
+                    {items.map((i) => {
+                      const on = chosen(g).includes(i.id);
+                      return (
+                        <label key={i.id} className={"pd-card" + (on ? " on" : "")}>
+                          <input type="radio" name={"g" + g.id} checked={on} onChange={() => toggle(g, i)} />
+                          <b>{i.name}</b>
+                          {anyDelta && <span>{num(effPrice(p) + i.price_delta)} FCFA</span>}
+                          {on && <i className="ck" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.6" strokeLinecap="round" strokeLinejoin="round"><path d="m5 12.500 4.500 4.500L19 7.500" /></svg></i>}
+                        </label>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
             );
           })}
@@ -138,9 +140,8 @@ function Detail({ p }) {
               <button aria-label="Plus" onClick={() => setQty((q) => Math.min(50, q + 1))}>+</button>
             </div>
             <button className="pd-add" disabled={!p.available} aria-label={p.available ? `Ajouter au panier, ${num(unit * qty)} FCFA` : `${p.name} : indisponible`} onClick={submit}>
-              <CartIcon solid /><span>Ajouter · {num(unit * qty)} FCFA</span>
+              <CartIcon /><span><b>{p.available ? "Ajouter au panier" : "Indisponible"}</b><small>{num(unit * qty)} FCFA</small></span>
             </button>
-            <Link to="/panier" className="pd-go" aria-label="Voir le panier"><Arrow /></Link>
           </div>
         </div>
       </div>
