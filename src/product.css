@@ -66,3 +66,13 @@
 .pd-add span{white-space:nowrap}
 .pd-add svg{width:24px;height:24px}
 .pd-step{width:clamp(104px,29vw,130px)}
+
+/* Toute la page défile (la photo remonte avec le contenu) ; seule la barre d'ajout reste fixe en bas. */
+.shop.pd{display:block;height:auto;min-height:100svh;max-height:none;overflow:visible;padding:0 0 110px}
+.pd-photo{flex:none;height:clamp(240px,42svh,420px)}
+.pd-sheet{display:block;flex:none;min-height:0;background:#fff;z-index:2}
+.pd-body{overflow:visible;padding-bottom:16px}
+.pd-bar{position:fixed;left:50%;transform:translateX(-50%);bottom:0;width:min(100%,480px);z-index:20}
+.pd-round{position:absolute}
+/* La fiche produit défile en entier (les autres pages restent figées) */
+html:has(.shop.pd),body:has(.shop.pd){height:auto;overflow-y:auto;overscroll-behavior:auto}
