@@ -1,6 +1,6 @@
 # Session state (auto-saved — last known reality)
 
-_Updated: 2026-11-22 08:13:19_  ·  branch: `main`
+_Updated: 2026-11-22 08:20:19_  ·  branch: `main`
 
 ## Uncommitted changes
 ```
@@ -9,13 +9,14 @@ _Updated: 2026-11-22 08:13:19_  ·  branch: `main`
 
 Diff stat:
 ```
- .anchor/session-state.md | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
+ .anchor/session-state.md | 14 +-------------
+ 1 file changed, 1 insertion(+), 13 deletions(-)
 ```
 
 ## Recent commits
 ```
-b905e5e BubbleTea : boutique en ligne et espace administrateur
+7295b7f Configuration Render (site statique)
+d72a18f BubbleTea : boutique en ligne et espace administrateur
 ```
 
 ## Resume
