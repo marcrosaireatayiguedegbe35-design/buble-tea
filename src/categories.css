@@ -103,9 +103,6 @@
 .cg-feat .row{gap:10px}
 .cg-card{flex:1 0 0;min-width:96px;border-radius:14px}
 .cg-card .ph{flex:1.25}
-.cg-card .fav{position:absolute;top:7px;right:7px;width:30px;height:30px;padding:0;border:0;border-radius:50%;background:#fff;color:#12361c;display:grid;place-items:center;cursor:pointer;box-shadow:0 2px 6px rgb(0 0 0/.15)}
-.cg-card .fav svg{width:17px;height:17px}
-.cg-card .fav.on{color:#e0245e}.cg-card .fav.on svg{fill:#e0245e}
 .cg-card .nm{font-weight:500;font-size:clamp(11px,1.7svh,13.5px);padding-top:7px}
 .cg-card .pr{font-size:clamp(12px,1.85svh,14.5px);font-weight:800}
 .cg-card .add{width:30px;height:30px;background:#0b7a1c}

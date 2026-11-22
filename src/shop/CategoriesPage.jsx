@@ -16,7 +16,6 @@ const P = {
   grid: <><rect x="4" y="4" width="6.5" height="6.5" rx="1.5" /><rect x="13.500" y="4" width="6.500" height="6.500" rx="1.500" /><rect x="4" y="13.500" width="6.500" height="6.500" rx="1.500" /><rect x="13.500" y="13.500" width="6.500" height="6.500" rx="1.500" /></>,
   list: <><path d="M6 3h12a1.500 1.500 0 0 1 1.500 1.500v15A1.500 1.500 0 0 1 18 21H6a1.500 1.500 0 0 1-1.500-1.500v-15A1.500 1.500 0 0 1 6 3z" /><path d="M8.500 8h7M8.500 12h7M8.500 16h4" /></>,
   user: <><circle cx="12" cy="8" r="4" /><path d="M4 21c0-4.400 3.600-7 8-7s8 2.600 8 7" /></>,
-  heart: <path d="M12 20.500s-7.500-4.600-7.500-10A4.300 4.300 0 0 1 12 7.600a4.300 4.300 0 0 1 7.500 2.900c0 5.400-7.500 10-7.500 10z" />,
   star: <path d="m12 3 2.700 5.600 6.100.9-4.400 4.300 1 6.100L12 17l-5.400 2.900 1-6.100L3.200 9.500l6.100-.9z" fill="currentColor" stroke="none" />,
   scooter: <><circle cx="6" cy="17" r="2.600" /><circle cx="18" cy="17" r="2.600" /><path d="M8.600 17H15l-2-8h-3M16 6h2.500M3 12h4" /></>,
   shield: <><path d="M12 3 4.500 6v5.500c0 4.600 3.100 8.200 7.500 9.500 4.400-1.300 7.500-4.900 7.500-9.500V6z" /><path d="m8.500 12 2.500 2.500 4.500-5" /></>,
@@ -33,11 +32,6 @@ export default function CategoriesPage() {
   const [bi, setBi] = useState(0);
   useEffect(() => { if (list.length < 2) return; const t = setInterval(() => setBi((i) => i + 1), 5000); return () => clearInterval(t); }, [list.length]);
   const feat = list.length ? list[bi % list.length] : null;
-  const [favs, setFavs] = useState(() => { try { return JSON.parse(localStorage.getItem("favs") || "[]"); } catch { return []; } });
-  const toggleFav = (e, id) => {
-    e.preventDefault(); e.stopPropagation();
-    setFavs((f) => { const n = f.includes(id) ? f.filter((x) => x !== id) : [...f, id]; try { localStorage.setItem("favs", JSON.stringify(n)); } catch (_) {} return n; });
-  };
   const [q, setQ] = useState("");
 
   const sellable = useMemo(() => products.filter((p) => p.published !== false), [products]);
@@ -62,7 +56,7 @@ export default function CategoriesPage() {
 
   const Card = ({ p, star }) => (
     <Link to={`/produit/${p.id}`} className={"cg-card" + (p.available === false ? " off" : "")}>
-      <span className="ph">{p.image_url ? <img src={p.image_url} alt="" loading="lazy" /> : <b>{p.name.charAt(0)}</b>}<button type="button" className={"fav" + (favs.includes(p.id) ? " on" : "")} aria-label="Ajouter aux favoris" onClick={(e) => toggleFav(e, p.id)}><Ic k="heart" /></button></span>
+      <span className="ph">{p.image_url ? <img src={p.image_url} alt="" loading="lazy" /> : <b>{p.name.charAt(0)}</b>}</span>
       <span className="nm">{p.name}</span>
       <span className="pr"><span>{num(p.price)} CFA</span><i className="add" aria-hidden="true"><Ic k="plus" sw={3} /></i></span>
     </Link>
