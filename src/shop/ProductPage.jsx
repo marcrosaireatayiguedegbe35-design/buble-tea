@@ -74,6 +74,9 @@ function Detail({ p }) {
     goBack();
   };
 
+  const missingGroup = p.option_groups.find((g) => g.required && g.option_items.some((i) => i.available) && chosen(g).length === 0);
+  const jumpTo = (g) => { const el = document.getElementById("g-" + g.id); if (el) el.scrollIntoView({ behavior: "smooth", block: "center" }); };
+
   return (
     <div className={"shop pd" + (p.available ? "" : " off")}>
       <div className="pd-photo">
@@ -83,66 +86,57 @@ function Detail({ p }) {
       </div>
 
       <div className="pd-sheet">
-
-        <div className="pd-body">
-          <div className="pd-tags">{cat && <span className="pd-cat">{cat.name}</span>}{promoOn(p) && <b className="pd-off">-{promoPct(p)}%</b>}{!p.available && <span className="pd-cat off">Indisponible</span>}</div>
+        <div className="pd-head">
           <h1>{p.name}</h1>
-          <div className="pd-price">{promoOn(p) && <s>{num(p.price)}</s>}<em>{num(unit)}</em> <small>FCFA</small></div>
+          <div className="pd-price">
+            {promoOn(p) && <s>{num(p.price)}</s>}<em>{num(effPrice(p))} FCFA</em>
+            {promoOn(p) && <b className="pd-off">-{promoPct(p)}%</b>}
+            {!p.available && <span className="pd-na">Indisponible</span>}
+          </div>
           {p.description && <p className="pd-desc">{p.description}</p>}
-
-          {p.option_groups.map((g) => {
-            const items = g.option_items.filter((i) => i.available);
-            if (!items.length) return null;
-            const anyDelta = items.some((i) => i.price_delta);
-            return (
-              <div className="pd-group" key={g.id}>
-                <div className="pd-gh"><h3>{g.name}</h3><span className={"pd-req" + (g.required ? " on" : "")}>{g.required ? "Obligatoire" : g.multiple ? "Plusieurs choix" : "Optionnel"}</span></div>
-                {g.multiple ? (
-                  <div className="pd-rows">
-                    {items.map((i) => {
-                      const on = chosen(g).includes(i.id);
-                      return (
-                        <label key={i.id} className={"pd-row-opt" + (on ? " on" : "")}>
-                          <input type="checkbox" name={"g" + g.id} checked={on} onChange={() => toggle(g, i)} />
-                          <span className="n">{i.name}</span>
-                          {i.price_delta ? <em>{(i.price_delta > 0 ? "+" : "−") + num(Math.abs(i.price_delta))} <small>FCFA</small></em> : null}
-                          <i className="box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.4" strokeLinecap="round" strokeLinejoin="round"><path d="m5 12.500 4.500 4.500L19 7.500" /></svg></i>
-                        </label>
-                      );
-                    })}
-                  </div>
-                ) : (
-                  <div className={"pd-cards c" + Math.min(items.length, 3)}>
-                    {items.map((i) => {
-                      const on = chosen(g).includes(i.id);
-                      return (
-                        <label key={i.id} className={"pd-card" + (on ? " on" : "")}>
-                          <input type="radio" name={"g" + g.id} checked={on} onChange={() => toggle(g, i)} />
-                          <b>{i.name}</b>
-                          {anyDelta && <span>{num(effPrice(p) + i.price_delta)} FCFA</span>}
-                          {on && <i className="ck" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.6" strokeLinecap="round" strokeLinejoin="round"><path d="m5 12.500 4.500 4.500L19 7.500" /></svg></i>}
-                        </label>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
-            );
-          })}
         </div>
 
-        <div className="pd-bar">
-          {err && <p className="pd-err">{err}</p>}
-          <div className="pd-row">
-            <div className="pd-step">
-              <button aria-label="Moins" onClick={() => setQty((q) => Math.max(1, q - 1))}>−</button>
-              <b>{qty}</b>
-              <button aria-label="Plus" onClick={() => setQty((q) => Math.min(50, q + 1))}>+</button>
-            </div>
-            <button className="pd-add" disabled={!p.available} aria-label={p.available ? `Ajouter au panier, ${num(unit * qty)} FCFA` : `${p.name} : indisponible`} onClick={submit}>
-              <CartIcon /><span><b>{p.available ? "Ajouter au panier" : "Indisponible"}</b><small>{num(unit * qty)} FCFA</small></span>
-            </button>
+        {p.option_groups.map((g) => {
+          const items = g.option_items.filter((i) => i.available);
+          if (!items.length) return null;
+          return (
+            <section className="pd-group" key={g.id} id={"g-" + g.id}>
+              <div className="pd-gh">
+                <div><h3>{g.name}</h3><span className="pd-hint">{g.multiple ? "Plusieurs choix possibles" : "Choisis 1 option"}</span></div>
+                <span className={"pd-req" + (g.required ? " on" : "")}>{g.required ? "Requis" : "Facultatif"}</span>
+              </div>
+              <div className="pd-list">
+                {items.map((i) => {
+                  const on = chosen(g).includes(i.id);
+                  return (
+                    <label key={i.id} className={"pd-opt" + (on ? " on" : "") + (g.multiple ? " multi" : "")}>
+                      <input type={g.multiple ? "checkbox" : "radio"} name={"g" + g.id} checked={on} onChange={() => toggle(g, i)} />
+                      <i className="mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.6" strokeLinecap="round" strokeLinejoin="round"><path d="m5 12.500 4.500 4.500L19 7.500" /></svg></i>
+                      <span className="n">{i.name}</span>
+                      {i.price_delta ? <em>{(i.price_delta > 0 ? "+" : "−") + num(Math.abs(i.price_delta))} FCFA</em> : null}
+                    </label>
+                  );
+                })}
+              </div>
+            </section>
+          );
+        })}
+      </div>
+
+      <div className="pd-bar">
+        {err && <p className="pd-err">{err}</p>}
+        <div className="pd-row">
+          <div className="pd-step">
+            <button aria-label="Moins" onClick={() => setQty((q) => Math.max(1, q - 1))}>−</button>
+            <b>{qty}</b>
+            <button aria-label="Plus" onClick={() => setQty((q) => Math.min(50, q + 1))}>+</button>
           </div>
+          <button className={"pd-add" + (missingGroup ? " need" : "")} disabled={!p.available}
+            aria-label={p.available ? `Ajouter au panier, ${num(unit * qty)} FCFA` : `${p.name} : indisponible`}
+            onClick={() => { if (missingGroup) { setErr(`Choisis : ${missingGroup.name}`); jumpTo(missingGroup); return; } submit(); }}>
+            <span>{!p.available ? "Indisponible" : missingGroup ? `Choisis : ${missingGroup.name}` : `Ajouter${qty > 1 ? " " + qty : ""}`}</span>
+            {p.available && !missingGroup && <b>{num(unit * qty)} FCFA</b>}
+          </button>
         </div>
       </div>
     </div>
