@@ -31,6 +31,8 @@ export default function ProductPage() {
 
 function Detail({ p }) {
   const nav = useNavigate();
+  const { categories } = useMenu();
+  const cat = categories.find((c) => c.id === p.category_id);
   const { add, count } = useCart();
   const [qty, setQty] = useState(1);
   // comme sur la maquette : le premier choix des groupes obligatoires à choix unique est présélectionné
@@ -81,13 +83,11 @@ function Detail({ p }) {
       </div>
 
       <div className="pd-sheet">
-        <svg className="pd-wave" viewBox="0 0 941 121" preserveAspectRatio="none" aria-hidden="true">
-          <path d="M0 60C60 52 110 44 160 52 330 80 520 118 690 112 780 108 820 60 860 24 890 4 915 0 941 0V121H0Z" fill="#fff" />
-        </svg>
 
         <div className="pd-body">
+          <div className="pd-tags">{cat && <span className="pd-cat">{cat.name}</span>}{promoOn(p) && <b className="pd-off">-{promoPct(p)}%</b>}{!p.available && <span className="pd-cat off">Indisponible</span>}</div>
           <h1>{p.name}</h1>
-          <div className="pd-price">{promoOn(p) && <s>{num(p.price)}</s>}<em>{num(unit)}</em> <small>FCFA</small>{promoOn(p) && <b className="pd-off">-{promoPct(p)}%</b>}</div>
+          <div className="pd-price">{promoOn(p) && <s>{num(p.price)}</s>}<em>{num(unit)}</em> <small>FCFA</small></div>
           {p.description && <p className="pd-desc">{p.description}</p>}
 
           {p.option_groups.map((g) => {
@@ -96,7 +96,7 @@ function Detail({ p }) {
             const anyDelta = items.some((i) => i.price_delta);
             return (
               <div className="pd-group" key={g.id}>
-                <h3>{g.name}{!g.required && <span> (optionnel)</span>}</h3>
+                <div className="pd-gh"><h3>{g.name}</h3><span className={"pd-req" + (g.required ? " on" : "")}>{g.required ? "Obligatoire" : g.multiple ? "Plusieurs choix" : "Optionnel"}</span></div>
                 {g.multiple ? (
                   <div className="pd-rows">
                     {items.map((i) => {
