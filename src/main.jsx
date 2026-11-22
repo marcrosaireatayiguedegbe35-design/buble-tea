@@ -32,7 +32,7 @@ createRoot(document.getElementById("root")).render(
           <Route path="/produit/:id" element={<ProductPage />} />
           <Route path="/panier" element={<CartPage />} />
           <Route path="/suivi/:token" element={<Track />} />
-          <Route path="/admin" element={<Admin />} />
+          <Route path="/back-office-bubble" element={<Admin />} />
           <Route path="*" element={<Home />} />
         </Routes>
       </MenuProvider>
