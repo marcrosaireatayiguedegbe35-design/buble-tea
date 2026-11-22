@@ -1,0 +1,45 @@
+/* Page d'accueil — reproduction de la maquette.
+   1 « u » = 1 px de la maquette (846 × 1858). La page garde ces proportions sur tous les écrans. */
+.shop.hm{
+  --u:min(calc(min(100vw,480px) / 846), calc(100svh / 1858));
+  --green:#036c28; --green-d:#0a5a2a; --yellow:#fddc03;
+  position:relative;display:block;height:100svh;max-height:none;padding:0;overflow:hidden;isolation:isolate;
+  background:#2c3d14;color:#fff;font-family:"Noto Sans",Inter,system-ui,sans-serif;
+}
+.hm-bg{position:absolute;inset:0;z-index:-1;background:url(/hero-bg.webp) left top / max(100%, calc(var(--u)*883)) auto no-repeat,#8c5a2b;filter:brightness(.94) saturate(.88)}
+.hm-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,12,0,0) 36%,rgba(20,12,0,.22) 64%,rgba(20,12,0,.1) 100%)}
+
+/* en-tête */
+.hm-top{position:absolute;z-index:3;left:0;right:0;top:0;height:calc(var(--u)*170)}
+.hm-brand{position:absolute;left:calc(var(--u)*48);top:calc(var(--u)*24);display:flex;align-items:flex-start;color:#fff;text-decoration:none}
+.hm-logo{display:block;width:calc(var(--u)*67);height:calc(var(--u)*107);object-fit:contain;margin:0 calc(var(--u)*32) 0 0}
+.hm-name{display:block;padding-top:calc(var(--u)*24)}
+.hm-name b{display:block;font:700 calc(var(--u)*44)/1 "Noto Sans",sans-serif;letter-spacing:0;text-shadow:0 2px 8px rgba(0,0,0,.25)}
+.hm-name small{display:block;margin-top:calc(var(--u)*11);font:600 max(9px,calc(var(--u)*19.5))/1 "Noto Sans",sans-serif;text-shadow:0 1px 6px rgba(0,0,0,.35);white-space:nowrap}
+
+/* bloc principal ancré en bas : coordonnées = y de la maquette − 560 */
+.hm-stack{position:absolute;left:0;right:0;bottom:0;height:calc(var(--u)*1298);z-index:2}
+.hm h1{position:absolute;left:calc(var(--u)*62);top:calc(var(--u)*12);margin:0;font:800 calc(var(--u)*101)/calc(var(--u)*105) "Noto Serif",Lora,Georgia,serif;letter-spacing:-.015em;color:#fff;text-shadow:0 3px 14px rgba(0,0,0,.4),0 1px 2px rgba(0,0,0,.3)}
+.hm h1 em{font-style:normal;color:var(--yellow)}
+.hm-sub{position:absolute;left:calc(var(--u)*62);top:calc(var(--u)*362);margin:0;font:600 max(12px,calc(var(--u)*28))/1 "Noto Sans",sans-serif;color:#fff;text-shadow:0 2px 9px rgba(0,0,0,.55);white-space:nowrap}
+.hm-stroke{position:absolute;left:calc(var(--u)*42);top:calc(var(--u)*44);width:calc(var(--u)*200);height:calc(var(--u)*34);overflow:visible}
+
+.hm-cta{position:absolute;left:calc(var(--u)*52);top:calc(var(--u)*475);width:calc(var(--u)*423);height:calc(var(--u)*115);box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;padding:0 calc(var(--u)*20) 0 calc(var(--u)*56);border-radius:999px;color:#fff;text-decoration:none;font:700 calc(var(--u)*42)/1 "Noto Sans",sans-serif;
+  background:linear-gradient(180deg,#0a7e2e 0%,#036c28 45%,#055f26 100%);border:calc(var(--u)*4) solid #0b8a19;box-shadow:0 8px 22px rgba(0,0,0,.28),inset 0 2px 0 rgba(255,255,255,.25)}
+.hm-cta .dot,.hm-order .dot{flex:none;display:flex;align-items:center;justify-content:center;border-radius:50%;background:#fff;color:#067a2b}
+.hm-cta .dot{width:calc(var(--u)*79);height:calc(var(--u)*79)}
+.hm-cta .dot svg{width:calc(var(--u)*40);height:calc(var(--u)*40)}
+
+
+/* carte du bas */
+.hm-card{position:absolute;left:calc(var(--u)*28);right:calc(var(--u)*28);bottom:calc(var(--u)*40);height:max(calc(var(--u)*400),176px);isolation:isolate;overflow:hidden;border-radius:calc(var(--u)*50);background:#fdf6eb;color:#0c3d22;box-shadow:0 14px 40px rgba(0,0,0,.3)}
+.hm-badge{position:absolute;left:calc(var(--u)*38);top:calc(var(--u)*34);height:calc(var(--u)*43);padding:0 calc(var(--u)*14) 0 calc(var(--u)*13);display:flex;align-items:center;gap:calc(var(--u)*7);border-radius:999px;background:linear-gradient(90deg,#ffe640 0%,#ffe640 62%,#fff08a 80%,#ffe640 100%);color:#16160f;font:700 calc(var(--u)*23.5)/1 "Noto Sans",sans-serif;white-space:nowrap}
+.hm-badge .spark{font-size:calc(var(--u)*15);color:#3d7a1f;margin-left:calc(var(--u)*2)}
+.hm-card h2{position:absolute;left:calc(var(--u)*38);top:calc(var(--u)*92);margin:0;width:calc(100% - var(--u)*400);min-width:calc(var(--u)*390);font:800 calc(var(--u)*43)/calc(var(--u)*47) "Noto Sans",sans-serif;letter-spacing:-.005em;color:#0c3d22}
+.hm-card p{position:absolute;left:calc(var(--u)*38);top:calc(var(--u)*190);margin:0;width:calc(100% - var(--u)*400);font:400 max(10.5px,calc(var(--u)*23.3))/max(14px,calc(var(--u)*31)) "Noto Sans",sans-serif;color:#2f4d3b}
+.hm-order{position:absolute;left:calc(var(--u)*34);top:calc(var(--u)*276);width:calc(var(--u)*293);height:calc(var(--u)*84);min-height:44px;box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;padding:0 calc(var(--u)*11) 0 calc(var(--u)*32);border-radius:999px;color:#fff;text-decoration:none;font:700 calc(var(--u)*28)/1 "Noto Sans",sans-serif;background:linear-gradient(180deg,#0f6a33,#0a5428)}
+.hm-order .dot{width:calc(var(--u)*62);height:calc(var(--u)*62);color:#0a6a30}
+.hm-order .dot svg{width:calc(var(--u)*30);height:calc(var(--u)*30)}
+.hm-cup{position:absolute;right:calc(var(--u)*42);top:calc(var(--u)*26);width:auto;height:calc(var(--u)*372);max-width:none;mix-blend-mode:multiply;pointer-events:none}
+
+.hm :focus-visible{outline:3px solid var(--yellow);outline-offset:3px}
