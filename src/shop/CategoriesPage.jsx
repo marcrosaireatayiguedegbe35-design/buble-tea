@@ -39,7 +39,6 @@ export default function CategoriesPage() {
     setFavs((f) => { const n = f.includes(id) ? f.filter((x) => x !== id) : [...f, id]; try { localStorage.setItem("favs", JSON.stringify(n)); } catch (_) {} return n; });
   };
   const [q, setQ] = useState("");
-  const [sel, setSel] = useState(null);
 
   const sellable = useMemo(() => products.filter((p) => p.published !== false), [products]);
   const chips = useMemo(() => categories.map((c) => {
@@ -47,10 +46,16 @@ export default function CategoriesPage() {
     return { ...c, items, img: items.find((p) => p.image_url)?.image_url };
   }), [categories, sellable]);
 
-  const cur = chips.find((c) => c.id === sel) || chips[0];
+  const cur = chips[0];
   const term = q.trim().toLowerCase();
   const results = term ? sellable.filter((p) => p.name.toLowerCase().includes(term) || (p.description || "").toLowerCase().includes(term)) : null;
-  const featured = (cur?.items || []).slice(0, 8);
+  // Mélange de toutes les catégories : un produit de chaque catégorie à tour de rôle, puis les autres
+  const featured = useMemo(() => {
+    const cols = [...chips.map((c) => c.items), sellable.filter((p) => !chips.some((c) => c.id === p.category_id))].filter((a) => a.length);
+    const out = [];
+    for (let i = 0; out.length < 8 && cols.some((a) => a[i]); i++) cols.forEach((a) => { if (a[i] && out.length < 8) out.push(a[i]); });
+    return out;
+  }, [chips, sellable]);
 
   let lastOrder = null;
   try { lastOrder = localStorage.getItem("lastOrder"); } catch (_) {}
@@ -94,10 +99,10 @@ export default function CategoriesPage() {
           {chips.length > 0 && (
             <nav className="cg-chips" aria-label="Catégories">
               {chips.map((c) => (
-                <button key={c.id} className={"cg-chip" + (cur?.id === c.id ? " on" : "")} onClick={() => setSel(c.id)}>
+                <Link key={c.id} to={`/categorie/${c.id}`} className={"cg-chip" + (cur?.id === c.id ? " on" : "")}>
                   <span className="im">{c.img ? <img src={c.img} alt="" loading="lazy" /> : <b>{c.name.charAt(0)}</b>}</span>
                   <span className="lb">{shortName(c.name)}</span>
-                </button>
+                </Link>
               ))}
             </nav>
           )}
@@ -122,7 +127,7 @@ export default function CategoriesPage() {
 
           {featured.length > 0 && (
             <section className="cg-feat">
-              <div className="hd"><h2>Nos incontournables</h2><Link to={cur ? `/categorie/${cur.id}` : "/menu"}>Voir tout <Ic k="arrow" sw={2.4} /></Link></div>
+              <div className="hd"><h2>Nos incontournables</h2><Link to="/menu">Voir tout <Ic k="arrow" sw={2.4} /></Link></div>
               <div className="row">{featured.map((p) => <Card key={p.id} p={p} />)}</div>
             </section>
           )}

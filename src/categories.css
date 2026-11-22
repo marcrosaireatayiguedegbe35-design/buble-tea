@@ -114,3 +114,15 @@
 .cg-card .pr>span{white-space:nowrap;font-size:clamp(11px,1.65svh,13.5px)}
 .cg-card .pr{padding-right:6px}.cg-card .add{width:28px;height:28px;flex:none}
 .cg-banner .tx{width:55%}.cg-banner p{max-width:13.5em}
+
+.cg-chip{text-decoration:none}
+.cg-card{flex:0 0 calc((100% - 20px) / 3);min-width:0}
+.cg-banner{height:clamp(100px,19svh,184px)}
+.cg-chip .im{max-height:clamp(46px,8svh,82px)}
+.cg-brand img{width:clamp(30px,5.6svh,52px)}
+.cg-search{height:clamp(36px,5.6svh,52px);margin-top:max(6px,1svh)}
+.cg-chips{margin-top:max(6px,1svh)}.cg-banner{margin-top:max(6px,1svh)}
+.cg-feat .row{min-height:clamp(120px,19svh,230px)}
+.cg-card .ph{min-height:64px}
+.cg-trust{padding-top:clamp(4px,.9svh,10px);padding-bottom:clamp(4px,.9svh,10px)}
+@media(max-height:720px){.cg-banner p{display:none}.cg-banner .tx{display:flex;flex-direction:column;justify-content:center;gap:2px;height:100%}.cg-banner .go{align-self:flex-start;margin-top:6px}}
