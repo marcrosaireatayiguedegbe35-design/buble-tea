@@ -123,3 +123,11 @@
 .cg-card .ph{min-height:64px}
 .cg-trust{padding-top:clamp(4px,.9svh,10px);padding-bottom:clamp(4px,.9svh,10px)}
 @media(max-height:720px){.cg-banner p{display:none}.cg-banner .tx{display:flex;flex-direction:column;justify-content:center;gap:2px;height:100%}.cg-banner .go{align-self:flex-start;margin-top:6px}}
+/* La bannière s'adapte à son contenu : le bouton « Commander » n'est jamais coupé */
+.cg-banner{height:auto;min-height:clamp(100px,19svh,184px);overflow:hidden}
+.cg-banner .tx{height:auto;display:block;padding-top:12px;padding-bottom:12px}
+.cg-banner h2{font-size:clamp(18px,3.2svh,28px);-webkit-line-clamp:2}
+.cg-banner p{-webkit-line-clamp:2;margin-bottom:8px}
+.cg-banner .go{margin-top:0;display:inline-flex}
+.cg-feat .row{min-height:96px}
+@media(max-height:780px){.cg-banner p{display:none}.cg-banner .go{margin-top:8px}}
