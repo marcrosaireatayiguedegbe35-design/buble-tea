@@ -29,3 +29,7 @@ export const demoProducts = [
   prod("c3", "Nuggets de poulet (6)", 1800, "Six nuggets dorés et leur sauce.", [], 18188572),
   prod("c4", "Gaufre sucrée", 1500, "Gaufre chaude, sucre glace et chocolat.", [], 35054718),
 ];
+
+// Exemples de promotions (mode essai uniquement)
+if (demoProducts[2]) demoProducts[2].promo_price = Math.round(demoProducts[2].price * 0.8);
+if (demoProducts[4]) demoProducts[4].promo_price = Math.round(demoProducts[4].price * 0.85);

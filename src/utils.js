@@ -33,3 +33,8 @@ export function beep() {
     });
   } catch (_) {}
 }
+
+// Promotions : prix promotionnel actif (inférieur au prix normal, et pas encore expiré)
+export const promoOn = (p) => !!p && p.promo_price != null && p.promo_price < p.price && (!p.promo_until || new Date(p.promo_until) > new Date());
+export const effPrice = (p) => (promoOn(p) ? p.promo_price : p.price);
+export const promoPct = (p) => (promoOn(p) ? Math.round((1 - p.promo_price / p.price) * 100) : 0);

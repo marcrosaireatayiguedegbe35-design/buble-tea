@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { sb } from "../supabase.js";
-import { ck, fmt, toast } from "../utils.js";
+import { ck, fmt, toast, promoOn, promoPct } from "../utils.js";
 import ProductEditor from "./ProductEditor.jsx";
 
 export default function Products() {
@@ -77,10 +77,11 @@ export default function Products() {
             {p.image_url ? <img src={p.image_url} alt="" /> : <div className="ph">🧋</div>}
             <div className="grow">
               <b>{p.name}</b>
-              <div className="muted">{fmt(p.price)}{cat ? " · " + cat.name : " · sans catégorie"}</div>
+              <div className="muted">{promoOn(p) ? <><s>{fmt(p.price)}</s> <b>{fmt(p.promo_price)}</b></> : fmt(p.price)}{cat ? " · " + cat.name : " · sans catégorie"}</div>
               <div className="chips">
                 <span className={"chip " + (p.published ? "pub" : "draft")}>{p.published ? "Publié" : "Brouillon"}</span>
                 {p.published && !p.available && <span className="chip off">Indisponible</span>}
+                {promoOn(p) && <span className="chip promo">Promo -{promoPct(p)}%</span>}
               </div>
             </div>
             <div className="row-actions">

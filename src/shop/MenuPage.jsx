@@ -1,3 +1,4 @@
+import { effPrice, promoOn, promoPct } from "../utils.js";
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useMenu } from "../MenuContext.jsx";
@@ -69,7 +70,7 @@ function Card({ p }) {
   const hasOptions = p.option_groups.some((g) => g.option_items.some((i) => i.available));
   const quick = () => {
     if (hasOptions) return nav(`/produit/${p.id}`);
-    add({ key: p.id + "|", product_id: p.id, name: p.name, option_ids: [], labels: [], unit: p.price, qty: 1, image: p.image_url || null });
+    add({ key: p.id + "|", product_id: p.id, name: p.name, option_ids: [], labels: [], unit: effPrice(p), qty: 1, image: p.image_url || null });
     toast("Ajouté au panier ✓");
   };
   return (
@@ -80,7 +81,7 @@ function Card({ p }) {
       <Link to={`/produit/${p.id}`} className="mp-info">
         <b>{p.name}</b>
         {p.description && <span className="d">{p.description}</span>}
-        <span className="pr"><em>{num(p.price)}</em> FCFA</span>
+        <span className="pr">{promoOn(p) && <s>{num(p.price)}</s>}<em>{num(effPrice(p))}</em> FCFA{promoOn(p) && <b className="pd-off">-{promoPct(p)}%</b>}</span>
       </Link>
       <button className="mp-plus" aria-label={p.available ? `Ajouter ${p.name}` : `${p.name} : indisponible`} disabled={!p.available} onClick={quick}><Plus /></button>
     </article>

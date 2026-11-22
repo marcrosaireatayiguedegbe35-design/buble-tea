@@ -1,3 +1,4 @@
+import { effPrice, promoOn, promoPct } from "../utils.js";
 import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useMenu } from "../MenuContext.jsx";
@@ -61,7 +62,7 @@ function Detail({ p }) {
   const chosen = (g) => sel[g.id] || [];
   const unit = p.option_groups.reduce(
     (s, g) => s + g.option_items.filter((i) => chosen(g).includes(i.id)).reduce((a, i) => a + i.price_delta, 0),
-    p.price
+    effPrice(p)
   );
   const toggle = (g, i) => { setErr(""); setSel((s) => {
     const cur = s[g.id] || [];
@@ -102,7 +103,7 @@ function Detail({ p }) {
 
         <div className="pd-body">
           <h1>{p.name}</h1>
-          <div className="pd-price"><em>{num(p.price)}</em> FCFA</div>
+          <div className="pd-price">{promoOn(p) && <s>{num(p.price)}</s>}<em>{num(effPrice(p))}</em> FCFA{promoOn(p) && <b className="pd-off">-{promoPct(p)}%</b>}</div>
           {p.description && <p className="pd-desc">{p.description}</p>}
 
           {p.option_groups.map((g) => {

@@ -346,3 +346,6 @@ dialog .upz-btns label.btn.disabled{opacity:.6;pointer-events:none}
 .adm .or-status.undelivered{background:#fff1e0;color:#b45309}
 @media(max-width:900px){.adm .or-c1{justify-content:flex-start;text-align:left}.adm .or-main>div{align-items:flex-start}.adm .or-c3{align-items:stretch}}
 @media(max-width:640px){.adm .ofilters,.adm .filters{flex-wrap:nowrap;overflow-x:auto;max-width:100%;-webkit-overflow-scrolling:touch}.adm .ofilters button,.adm .filters button{flex:none;white-space:nowrap}}
+
+.adm .chip.promo{background:#fde2e2;color:#b42318}
+.adm .prow s{opacity:.55}

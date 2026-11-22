@@ -182,3 +182,7 @@ html:has(.shop),body:has(.shop){height:100%;overflow:hidden;overscroll-behavior:
 }
 .s-cards.two .s-card-txt{right:52px}
 .s-cards.two .s-card-txt b{font-size:clamp(.95rem,2.6svh,1.2rem)}
+
+/* Promotions */
+.shop s{opacity:.55;margin-right:6px;font-weight:500}
+.shop .pd-off{display:inline-block;margin-left:8px;padding:2px 8px;border-radius:99px;background:#e0332b;color:#fff;font-size:.72em;font-weight:800;vertical-align:middle}

@@ -135,3 +135,9 @@
 .cg-banner .tx{width:52%;padding-right:10px;box-sizing:border-box}
 .cg-banner>img{width:42%}
 .cg-banner h2{overflow-wrap:break-word;font-size:clamp(17px,3svh,26px)}
+
+.cg-card .ph{position:relative}
+.cg-off{position:absolute;z-index:2;top:8px;left:8px;padding:2px 8px;border-radius:99px;background:#e0332b;color:#fff;font:800 11px/1.5 "Noto Sans",sans-serif;font-style:normal}
+.cg-card .pr s{font-weight:500;font-size:.85em;margin-right:4px}
+.cg-banner p s{opacity:.6;margin-right:6px}.cg-banner p b{color:#0a5a14}
+@media(max-height:780px){.cg-banner p{display:block}.cg-banner p:not(:has(s)){display:none}}

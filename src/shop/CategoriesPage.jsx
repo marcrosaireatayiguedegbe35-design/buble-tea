@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useMenu, useFeaturedList } from "../MenuContext.jsx";
 import { useCart } from "../CartContext.jsx";
+import { effPrice, promoOn, promoPct } from "../utils.js";
 
 // Page « Catégories » (accueil de la carte) reproduite d'après la maquette. Ne défile pas.
 
@@ -56,9 +57,9 @@ export default function CategoriesPage() {
 
   const Card = ({ p, star }) => (
     <Link to={`/produit/${p.id}`} className={"cg-card" + (p.available === false ? " off" : "")}>
-      <span className="ph">{p.image_url ? <img src={p.image_url} alt="" loading="lazy" /> : <b>{p.name.charAt(0)}</b>}</span>
+      <span className="ph">{promoOn(p) && <i className="cg-off">-{promoPct(p)}%</i>}{p.image_url ? <img src={p.image_url} alt="" loading="lazy" /> : <b>{p.name.charAt(0)}</b>}</span>
       <span className="nm">{p.name}</span>
-      <span className="pr"><span>{num(p.price)} CFA</span><i className="add" aria-hidden="true"><Ic k="plus" sw={3} /></i></span>
+      <span className="pr"><span>{promoOn(p) && <s>{num(p.price)}</s>}{num(effPrice(p))} CFA</span><i className="add" aria-hidden="true"><Ic k="plus" sw={3} /></i></span>
     </Link>
   );
 
@@ -105,9 +106,9 @@ export default function CategoriesPage() {
             <section className="cg-banner">
               <Link to={`/produit/${feat.id}`} className="hit" aria-label={`Voir ${feat.name}`} />
               <div className="tx">
-                <span className="tag">Offre spéciale ✦</span>
+                <span className="tag">{promoOn(feat) ? `Promo -${promoPct(feat)}% ✦` : "À découvrir ✦"}</span>
                 <h2>{feat.name}</h2>
-                <p>{feat.description || `${num(feat.price)} CFA`}</p>
+                <p>{promoOn(feat) ? <><s>{num(feat.price)}</s> <b>{num(effPrice(feat))} CFA</b></> : (feat.description || `${num(feat.price)} CFA`)}</p>
                 <Link to={`/produit/${feat.id}`} className="go">Commander <Ic k="arrow" sw={2.4} /></Link>
               </div>
               {feat.image_url && <img key={feat.id} src={feat.image_url} alt="" />}

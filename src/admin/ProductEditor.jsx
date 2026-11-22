@@ -38,6 +38,8 @@ export default function ProductEditor({ product: p, cats, onClose, onSaved }) {
   const [name, setName] = useState(p?.name || "");
   const [desc, setDesc] = useState(p?.description || "");
   const [price, setPrice] = useState(p ? String(p.price) : "");
+  const [promo, setPromo] = useState(p?.promo_price != null ? String(p.promo_price) : "");
+  const [promoUntil, setPromoUntil] = useState(p?.promo_until ? p.promo_until.slice(0, 10) : "");
   const [cat, setCat] = useState(p?.category_id || "");
   const [avail, setAvail] = useState(p ? p.available : true);
   const [imageUrl, setImageUrl] = useState(p?.image_url || null);
@@ -69,9 +71,12 @@ export default function ProductEditor({ product: p, cats, onClose, onSaved }) {
 
   const save = async (pub) => {
     if (!name.trim() || price === "") return toast("Nom et prix obligatoires", true);
+    if (promo !== "" && !(parseInt(promo, 10) >= 0 && parseInt(promo, 10) < parseInt(price, 10))) return toast("Le prix promotionnel doit être inférieur au prix normal.", true);
     setBusy(true);
     try {
-      const payload = { name: name.trim(), description: desc.trim() || null, price: parseInt(price, 10), category_id: cat || null, available: avail, image_url: imageUrl, published: pub };
+      const payload = { name: name.trim(), description: desc.trim() || null, price: parseInt(price, 10), category_id: cat || null, available: avail, image_url: imageUrl, published: pub,
+        promo_price: promo === "" ? null : parseInt(promo, 10),
+        promo_until: promo === "" || !promoUntil ? null : new Date(promoUntil + "T23:59:59").toISOString() };
       let id = p?.id;
       if (id) ck(await sb.from("products").update(payload).eq("id", id));
       else id = ck(await sb.from("products").insert(payload).select().single()).id;
@@ -107,6 +112,17 @@ export default function ProductEditor({ product: p, cats, onClose, onSaved }) {
           </select>
         </div>
       </div>
+
+      <label>Promotion (facultatif)</label>
+      <div className="two">
+        <div><input type="number" min={0} step={1} value={promo} onChange={(e) => setPromo(e.target.value)} placeholder="Prix promo en FCFA" /></div>
+        <div><input type="date" value={promoUntil} onChange={(e) => setPromoUntil(e.target.value)} title="Dernier jour de la promotion (vide = sans limite)" /></div>
+      </div>
+      <p className="muted" style={{ margin: "4px 0 10px", fontSize: ".82rem" }}>
+        {promo !== "" && price !== "" && parseInt(promo, 10) < parseInt(price, 10)
+          ? `Réduction de ${Math.round((1 - parseInt(promo, 10) / parseInt(price, 10)) * 100)} %. ${promoUntil ? "Fin le " + new Date(promoUntil).toLocaleDateString("fr-FR") + "." : "Sans date de fin : retire le prix promo pour l'arrêter."}`
+          : "Laisse vide s'il n'y a pas de promotion. Le prix barré affiché aux clients est le prix normal."}
+      </p>
 
       <label>Photo du produit</label>
       <div className={"upz" + (drag ? " drag" : "") + (imageUrl ? " has" : "")}
