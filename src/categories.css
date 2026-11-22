@@ -74,3 +74,43 @@
 .cg-banner p{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .cg-banner>img{right:0;bottom:0;top:0;height:100%;width:46%;max-width:none;object-fit:cover;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 35%);mask-image:linear-gradient(90deg,transparent 0,#000 35%)}
 .cg-nav{margin-top:auto}
+
+/* ---- Ajustements maquette 2 ---- */
+.cg-top{padding-top:max(14px,2svh)}
+.cg-cart{background:#eef7ea;box-shadow:0 4px 14px rgb(11 90 20/.12)}
+.cg-cart .bd{background:#0b7a1c}
+.cg-search{background:#f0f1f3;height:clamp(40px,6.4svh,52px)}
+.cg-chips{gap:10px}
+.cg-chip{flex:1 0 0;min-width:70px;max-width:none}
+.cg-chip .im{aspect-ratio:1/.9;max-height:clamp(58px,9.4svh,82px);border-radius:16px;background:#fdf1e4}
+.cg-chip.on .im{border-color:#0b7a1c;background:#eaf7e6;box-shadow:0 4px 12px rgb(11 122 28/.18)}
+.cg-chip .lb{font-size:clamp(10.5px,1.65svh,13px);font-weight:500}
+.cg-chip.on .lb{color:#0b7a1c;font-weight:700}
+.cg-banner{background:#fdf3e6;color:#12361c;box-shadow:0 8px 24px rgb(11 90 20/.12);height:clamp(130px,24svh,190px)}
+.cg-banner::before{content:"";position:absolute;right:-8%;top:-18%;width:58%;height:140%;border-radius:50%;background:#8fd14a;opacity:.85;z-index:0}
+.cg-banner::after{content:"";position:absolute;left:0;right:0;bottom:0;height:22%;background:linear-gradient(0deg,rgba(253,243,230,.55),transparent);z-index:0;pointer-events:none}
+.cg-banner .tx{width:62%}
+.cg-banner .tag{background:#9be15d;color:#0b4d14}
+.cg-banner h2{color:#0b0b0b;font-size:clamp(20px,3.6svh,30px);line-height:1.05;font-weight:800;white-space:normal}
+.cg-banner p{color:#1b1b1b;opacity:1;max-width:none}
+.cg-banner .go{background:#0a4d17;color:#fff}
+.cg-banner>img{z-index:1;right:0;width:50%;height:100%;object-fit:cover;border-radius:46% 0 0 46%/50% 0 0 50%;-webkit-mask-image:none;mask-image:none;animation:cgfade .5s}
+@keyframes cgfade{from{opacity:0}to{opacity:1}}
+.cg-dots{flex:none;display:flex;justify-content:center;gap:6px;margin-top:6px}
+.cg-dots button{width:8px;height:8px;padding:0;border:0;border-radius:99px;background:#d4d8dc;transition:.2s}
+.cg-dots button.on{width:22px;background:#0b7a1c}
+.cg-feat{margin-top:max(4px,.8svh)}
+.cg-feat .row{gap:10px}
+.cg-card{flex:1 0 0;min-width:96px;border-radius:14px}
+.cg-card .ph{flex:1.25}
+.cg-card .fav{position:absolute;top:7px;right:7px;width:30px;height:30px;padding:0;border:0;border-radius:50%;background:#fff;color:#12361c;display:grid;place-items:center;cursor:pointer;box-shadow:0 2px 6px rgb(0 0 0/.15)}
+.cg-card .fav svg{width:17px;height:17px}
+.cg-card .fav.on{color:#e0245e}.cg-card .fav.on svg{fill:#e0245e}
+.cg-card .nm{font-weight:500;font-size:clamp(11px,1.7svh,13.5px);padding-top:7px}
+.cg-card .pr{font-size:clamp(12px,1.85svh,14.5px);font-weight:800}
+.cg-card .add{width:30px;height:30px;background:#0b7a1c}
+.cg-trust{background:#eaf5e6}
+.cg-nav{border-radius:22px 22px 0 0;border-top:0;box-shadow:0 -4px 18px rgb(0 0 0/.07)}
+.cg-card .pr>span{white-space:nowrap;font-size:clamp(11px,1.65svh,13.5px)}
+.cg-card .pr{padding-right:6px}.cg-card .add{width:28px;height:28px;flex:none}
+.cg-banner .tx{width:55%}.cg-banner p{max-width:13.5em}

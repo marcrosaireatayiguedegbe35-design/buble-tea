@@ -13,6 +13,13 @@ export const useFeatured = () => {
   const ok = products.filter((p) => p.published !== false && p.available !== false);
   return ok.find((p) => p.image_url) || ok[0] || null;
 };
+// Jusqu'à 4 produits mis en avant (bannière défilante), mêmes règles que useFeatured
+export const useFeaturedList = (n = 4) => {
+  const { products } = useContext(Ctx);
+  const ok = products.filter((p) => p.published !== false && p.available !== false);
+  const withImg = ok.filter((p) => p.image_url);
+  return (withImg.length ? withImg : ok).slice(0, n);
+};
 // Infos de la boutique : réglages saisis dans l'admin, sinon valeurs de shopConfig.js
 export const useShop = () => { const { settings } = useContext(Ctx); return { ...shopConfig, ...settings }; };
 
