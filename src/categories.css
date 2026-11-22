@@ -68,3 +68,9 @@
 .cg-banner .tx{width:66%;padding-top:clamp(8px,1.4svh,14px);padding-bottom:clamp(8px,1.4svh,14px)}
 .cg-banner p{font-size:clamp(10px,1.45svh,12px);max-width:17em}
 .cg-banner{height:clamp(128px,23svh,184px)}
+
+.cg-banner .hit{position:absolute;inset:0;z-index:2}.cg-banner .go{position:relative;z-index:3}
+.cg-banner h2{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;color:#fff}
+.cg-banner p{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.cg-banner>img{right:0;bottom:0;top:0;height:100%;width:46%;max-width:none;object-fit:cover;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 35%);mask-image:linear-gradient(90deg,transparent 0,#000 35%)}
+.cg-nav{margin-top:auto}

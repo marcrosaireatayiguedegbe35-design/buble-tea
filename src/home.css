@@ -43,3 +43,10 @@
 .hm-cup{position:absolute;right:calc(var(--u)*42);top:calc(var(--u)*26);width:auto;height:calc(var(--u)*372);max-width:none;mix-blend-mode:multiply;pointer-events:none}
 
 .hm :focus-visible{outline:3px solid var(--yellow);outline-offset:3px}
+
+/* produit mis en avant (photo du catalogue) */
+.hm-hit{position:absolute;inset:0;z-index:1}
+.hm-card h2,.hm-card p,.hm-badge{z-index:2;pointer-events:none}.hm-order{z-index:3}
+.hm-cup.photo{mix-blend-mode:normal;right:0;top:0;height:100%;width:calc(var(--u)*390);object-fit:cover;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 28%);mask-image:linear-gradient(90deg,transparent 0,#000 28%)}
+.hm-card h2{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.hm-card p{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}

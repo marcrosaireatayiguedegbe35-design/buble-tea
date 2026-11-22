@@ -6,6 +6,13 @@ import { demoCategories, demoProducts } from "./demoData.js";
 
 const Ctx = createContext({ categories: [], products: [], loading: true, error: "", demo: false, settings: {} });
 export const useMenu = () => useContext(Ctx);
+// Produit mis en avant (accueil + bannière) : le premier produit publié et disponible du catalogue, de préférence avec photo.
+// Si l'admin le supprime ou le retire de la vente, le suivant prend automatiquement sa place.
+export const useFeatured = () => {
+  const { products } = useContext(Ctx);
+  const ok = products.filter((p) => p.published !== false && p.available !== false);
+  return ok.find((p) => p.image_url) || ok[0] || null;
+};
 // Infos de la boutique : réglages saisis dans l'admin, sinon valeurs de shopConfig.js
 export const useShop = () => { const { settings } = useContext(Ctx); return { ...shopConfig, ...settings }; };
 

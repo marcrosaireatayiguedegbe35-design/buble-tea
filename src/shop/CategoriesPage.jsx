@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { useMenu } from "../MenuContext.jsx";
+import { useMenu, useFeatured } from "../MenuContext.jsx";
 import { useCart } from "../CartContext.jsx";
 
 // Page « Catégories » (accueil de la carte) reproduite d'après la maquette. Ne défile pas.
@@ -28,6 +28,7 @@ const shortName = (n) => (n || "").replace(/\s*&\s*/g, " & ");
 export default function CategoriesPage() {
   const { categories, products, loading, error } = useMenu();
   const { count } = useCart();
+  const feat = useFeatured();
   const [q, setQ] = useState("");
   const [sel, setSel] = useState(null);
 
@@ -92,16 +93,18 @@ export default function CategoriesPage() {
             </nav>
           )}
 
-          <section className="cg-banner">
-            <div className="tx">
-              <span className="tag">Offre spéciale ✦</span>
-              <h2>Bubble Tea<br /><em>au goût unique !</em></h2>
-              <p>Fraîcheur garantie à chaque gorgée</p>
-              <Link to={cur ? `/categorie/${cur.id}` : "/menu"} className="go">Commander <Ic k="arrow" sw={2.4} /></Link>
-            </div>
-            <img src="/matcha.webp" alt="" />
-            <span className="dots" aria-hidden="true"><i className="on" /><i /><i /><i /></span>
-          </section>
+          {feat && (
+            <section className="cg-banner">
+              <Link to={`/produit/${feat.id}`} className="hit" aria-label={`Voir ${feat.name}`} />
+              <div className="tx">
+                <span className="tag">Offre spéciale ✦</span>
+                <h2>{feat.name}</h2>
+                <p>{feat.description || `${num(feat.price)} CFA`}</p>
+                <Link to={`/produit/${feat.id}`} className="go">Commander <Ic k="arrow" sw={2.4} /></Link>
+              </div>
+              {feat.image_url && <img src={feat.image_url} alt="" />}
+            </section>
+          )}
 
           {featured.length > 0 && (
             <section className="cg-feat">
